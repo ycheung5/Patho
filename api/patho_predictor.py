@@ -31,7 +31,7 @@ def read_fasta_to_kmers(file_path, k_mers):
     return final_df
 
 
-def patho_predict(model_path, input_fasta, output_csv, k_mers=None):
+def patho_predict(model_path, input_fasta, k_mers=None):
     if k_mers is None:
         k_mers = [3]
     df = read_fasta_to_kmers(input_fasta, k_mers)
@@ -42,8 +42,8 @@ def patho_predict(model_path, input_fasta, output_csv, k_mers=None):
         'prediction_value': y_pred,
         'label': ['pathogenic' if pred >= 0.5 else 'non-pathogenic' for pred in y_pred]
     })
-    results_df.to_csv(output_csv, index=False)
+    return results_df
 
 
-def run(model_path, input_fasta, output_csv):
-    patho_predict(model_path, input_fasta, output_csv)
+def run(model_path, input_fasta):
+    return patho_predict(model_path, input_fasta)
